@@ -10,7 +10,7 @@ Descreva em até dois parágrafos o tema que será investigado no projeto e a mo
 Explique por que esse tema é relevante ou interessante do ponto de vista estatístico ou social.
 
 ## 📊 Conjunto de Dados Selecionado  
-- **Nome do conjunto de dados:**  
+- ** Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro**  
   (Exemplo: "World Happiness Report", "ENEM 2023", "IBGE - PNAD Contínua", "Kaggle - Netflix Movies", etc.)
 
 - **Fonte:**  
