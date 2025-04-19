@@ -27,21 +27,23 @@ Explique por que esse tema é relevante ou interessante do ponto de vista estat�
     Retorno financeiro (Payback,TIR, VPL)
 
 - **Justificativa para a escolha:**  
-  
+  Atulmente trabalho com energia solar, por já estudar sobre o assunto, fique curioso em enteder mais sobre a viabilidade, e retornos finceiros, com base no banco de dados.
 
 ---
 
 ## ❓ Perguntas ou Hipóteses  
-*Começar a planejar com perguntas de Estatística Descritiva*  
-Liste aqui as perguntas de pesquisa ou hipóteses estatísticas que o grupo pretende investigar com base nos dados.
-
+1. Qual o tempo médio de payback para usinas de 117,6 kwp, 352,8 kwp e 1Mw?
+2. Existe correlação entre irradiação solar e redução de custo na conta de energia?
+3. Qual o impacto da resulução 482/2012 no crescimento de geração distribuida?
+4. Usinas maiores tem mais rentabilidade (TIR/VPL) que usinas menores?
+5. Quais são os proncipais desafios técnicos e econômicos para expansão da energia solar do Nordeste?
 ## 🔍 Metodologia  
-*A preencher na próxima etapa.*  
-Indique quais técnicas estatísticas serão utilizadas (análise exploratória, testes, correlações, modelos, etc.).
+Analise exploratoria- medir tendencias centrais, dispersão e visualização
+Testes estatisticos 
+Modelos preditivos 
 
 ## 🛠️ Ferramentas Utilizadas  
-*A preencher na próxima etapa.*  
-Quais linguagens, bibliotecas ou softwares serão utilizados no projeto.
+
 
 ## 📈 Resultados  
 *A preencher após as análises.*  
