@@ -1,26 +1,33 @@
 # Projeto de Estatística Aplicada
 
 ## 🧑‍💻 Autores  
-- Nome 1 (matrícula) - email  
+- Ewerton Barbosa do Nascimento Amaro-202311210031 - ewerton.nascimento@academico.ifpb.edu.br  
 - Nome 2 (matrícula) - email  
 - Nome 3 (matrícula) - email  
 
 ## 🎯 Tema e Motivação  
-Descreva em até dois parágrafos o tema que será investigado no projeto e a motivação da equipe para essa escolha.  
+Este conjunto de dados refere-se a um estudo de viabilidade técnica e econômica da implementação de sistema de energia solar fotovoltaica no Nordeste do Brasil, o conjunto de dados analisa três centrais solares diferentes partes(117,6 kWp, 352,8 kWp e 1 MW)com foco na rentabilidade, os desafios e os impactos regulatórios da geração distribuída de energia solar.
+
 Explique por que esse tema é relevante ou interessante do ponto de vista estatístico ou social.
 
 ## 📊 Conjunto de Dados Selecionado  
-- ** Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro**  
-  (Exemplo: "World Happiness Report", "ENEM 2023", "IBGE - PNAD Contínua", "Kaggle - Netflix Movies", etc.)
+- ** Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro**
+- Google - Data from: Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro
+  
 
 - **Fonte:**  
-  (Link ou citação da base de dados)
+ [ (Link ou citação da base de dados)](https://datasetsearch.research.google.com/search?src=0&query=energia%20solar&docid=L2cvMTFsajU5cW40Zw%3D%3D)
 
 - **Descrição breve:**  
-  Explique o que representa esse conjunto de dados, qual o escopo (temporal, geográfico, etc.), quais as principais variáveis presentes e o motivo pelo qual ele foi escolhido.  
+  No escorpo temporal - Dados pós -2012 apos resolução 482 da ANEEL
+  No escorpo geografico - Nordeste do Brasil, região com alta irradiação solar
+  Principais Variáveis
+    Potência instalada ( kwp/Mw)
+    Irradiação solar(kwh/m³)
+    Retorno financeiro (Payback,TIR, VPL)
 
 - **Justificativa para a escolha:**  
-  Indique por que esse conjunto de dados permite análises estatísticas interessantes e como ele pode responder a questões relevantes.
+  
 
 ---
 
