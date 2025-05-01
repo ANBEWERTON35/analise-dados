@@ -20,7 +20,9 @@ Explique por que esse tema é relevante ou interessante do ponto de vista estat�
 
 - **Descrição breve:**  
   No escorpo temporal - Dados pós -2012 apos resolução 482 da ANEEL
+  
   No escorpo geografico - Nordeste do Brasil, região com alta irradiação solar
+  
   Principais Variáveis
     Potência instalada ( kwp/Mw)
     Irradiação solar(kwh/m³)
