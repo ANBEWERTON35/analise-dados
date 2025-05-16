@@ -8,7 +8,7 @@
 ## 🎯 Tema e Motivação  
 Este conjunto de dados refere-se a um estudo de viabilidade técnica e econômica da implementação de sistema de energia solar fotovoltaica no Nordeste do Brasil, o conjunto de dados analisa três centrais solares diferentes partes(117,6 kWp, 352,8 kWp e 1 MW)com foco na rentabilidade, os desafios e os impactos regulatórios da geração distribuída de energia solar.
 
-Explique por que esse tema é relevante ou interessante do ponto de vista estatístico ou social.
+No contexto social, a combinação de análise estatística e impacto social faz desse estudo uma ferramenta valiosa para políticas públicas, empresas e comunidades, equilibrando viabilidade técnica, econômica e benefícios coletivos.
 
 ## 📊 Conjunto de Dados Selecionado  
 - ** Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro**
