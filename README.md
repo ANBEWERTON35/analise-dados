@@ -41,12 +41,13 @@ Explique por que esse tema é relevante ou interessante do ponto de vista estat�
 5. Quais são os proncipais desafios técnicos e econômicos para expansão da energia solar do Nordeste?
 ## 🔍 Metodologia 
 Para garantir precisão na investigação, iniciei com uma análise minuciosa das variáveis do data frame. Essa etapa permitiu identificar padrões e inconsistências nos dados. Com esses insights, foi possível refinar as informações e direcionar as próximas ações com maior clareza.
+
 Analise exploratoria- medir tendencias centrais, dispersão e visualização
 Testes estatisticos 
 Modelos preditivos 
 
 ## 🛠️ Ferramentas Utilizadas  
-
+A fim de aprimorar a qualidade dos dados, empreguei a biblioteca Pandas em conjunto com Python para processamento e análise. Essas ferramentas permitiram filtrar, organizar e extrair insights com maior eficiência. Dessa forma, os resultados obtidos tornaram-se mais confiáveis e detalhados.
 
 ## 📈 Resultados  
 *A preencher após as análises.*  
