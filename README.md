@@ -6,39 +6,49 @@
 - Nome 3 (matrícula) - email  
 
 ## 🎯 Tema e Motivação  
-Este conjunto de dados refere-se a um estudo de viabilidade técnica e econômica da implementação de sistema de energia solar fotovoltaica no Nordeste do Brasil, o conjunto de dados analisa três centrais solares diferentes partes(117,6 kWp, 352,8 kWp e 1 MW)com foco na rentabilidade, os desafios e os impactos regulatórios da geração distribuída de energia solar.
+Este conjunto de dados refere-se a uma analise de infraestrutura de banda larga nos Estados Unidos, com foco em aspectos como disponibilidade, velocidade e cobertura por código postal e por ano, o conjunto de dados faz uma comparação dos dados nos anos de 2019 e 2020, permitindo entender o impacto de politicas públicas e avanços tecnologicos e disponibilidade de acesso a rede.
 
-No contexto social, a combinação de análise estatística e impacto social faz desse estudo uma ferramenta valiosa para políticas públicas, empresas e comunidades, equilibrando viabilidade técnica, econômica e benefícios coletivos.
+No contexto social, a analise de conectividade digital é essecenciall para promover inclusão e desenvolvimento de infraestrutura, possibilitando uma maior visão da situação de disponibilidade de acesso a Internet, por meio de todo o territorio americano, possibilitando posteriormente a formulação de politicas públicas, e possiveis investimos em ares onde as disponibilidade, não tem boas infraestruturas.
 
 ## 📊 Conjunto de Dados Selecionado  
-- ** Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro**
-- Google - Data from: Energia solar fotovoltaica: estudo e viabilidade no nordeste brasileiro
+- **Banda lrga nos Estados Unidos : Disponibilidade e velocidade por região(2009 -2020)**
+- Git HUB - Data from: uso de banda larga nos Estados Unidos
   
 
 - **Fonte:**  
- [ (Link ou citação da base de dados)](https://datasetsearch.research.google.com/search?src=0&query=energia%20solar&docid=L2cvMTFsajU5cW40Zw%3D%3D)
+ [ (Link ou citação da base de dados)]
+ https://github.com/microsoft/USBroadbandUsagePercentages
+Arquivos analisados:
+
+broadband_data_2019November.csv
+
+broadband_data_2020October.csv
+
+broadband_data_zipcode.csv
 
 - **Descrição breve:**  
-  No escorpo temporal - Dados pós -2012 apos resolução 482 da ANEEL
+  No escorpo temporal - Dados referente aos anos de 2019 e 2020
   
-  No escorpo geografico - Nordeste do Brasil, região com alta irradiação solar
+  No escorpo geografico - Estados Unidos,com base no codigo postal
   
   Principais Variáveis
-    Potência instalada ( kwp/Mw)
-    Irradiação solar(kwh/m³)
-    Retorno financeiro (Payback,TIR, VPL)
+    velocidade máxima de download/upload
+    tipos de tecnologia
+    numero de provedores por área
 
 - **Justificativa para a escolha:**  
-  Atulmente trabalho com energia solar, por já estudar sobre o assunto, fique curioso em enteder mais sobre a viabilidade, e retornos finceiros, com base no dada frame a qual fiz escolha.
+ Atualmente, a conectividade digital é um dos pilares do desenvolvimento social e econôcomico.A escolha desse conjunto de dados ocorre pelo interresse em compreender como a infraestrutura de Internet está distribuida no territorio americano, quais são os fatores da desigualdade e como essa distribuição evolui em um periodo curto de tempo,mais significativo, de tempo pré e durante a pandemia.
 
 ---
 
 ## ❓ Perguntas ou Hipóteses  
-1. Qual o tempo médio de payback para usinas de 117,6 kwp, 352,8 kwp e 1Mw?
-2. Existe correlação entre irradiação solar e redução de custo na conta de energia?
-3. Qual o impacto da resulução 482/2012 no crescimento de geração distribuida?
-4. Usinas maiores tem mais rentabilidade (TIR/VPL) que usinas menores?
-5. Quais são os proncipais desafios técnicos e econômicos para expansão da energia solar do Nordeste?
+1. Qual a média de velocidade máxima de download disponível por região nos anos de 2019 e 2020?
+2.Houve aumento na cobertura de internet de alta velocidade durante a pandemia?
+3.Áreas urbanas possuem maior número de provedores comparadas a áreas rurais?
+4.Existe relação entre a tecnologia utilizada (fibra, cabo, DSL) e a velocidade oferecida?
+5.Qual o impacto da infraestrutura de banda larga no desenvolvimento local (ex: densidade populacional ou número de provedores)?
+
+
 ## 🔍 Metodologia 
 Para garantir precisão na investigação, iniciei com uma análise minuciosa das variáveis do data frame. Essa etapa permitiu identificar padrões e inconsistências nos dados. Com esses insights, foi possível refinar as informações e direcionar as próximas ações com maior clareza.
 
