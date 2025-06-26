@@ -20,11 +20,11 @@ No contexto social, a analise de conectividade digital é essecenciall para prom
  https://github.com/microsoft/USBroadbandUsagePercentages
 Arquivos analisados:
 
-broadband_data_2019November.csv
+  broadband_data_2019November.csv
 
-broadband_data_2020October.csv
+  broadband_data_2020October.csv
 
-broadband_data_zipcode.csv
+  broadband_data_zipcode.csv
 
 - **Descrição breve:**  
   No escorpo temporal - Dados referente aos anos de 2019 e 2020
