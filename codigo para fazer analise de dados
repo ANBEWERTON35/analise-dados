@@ -1,119 +1,135 @@
 import pandas as pd
-import PyPDF2
+import pdfplumber
 import os
-import re
 
-def analyze_pdf_content(text, pdf_reader):
-    # Número total de páginas (registros)
-    total_pages = len(pdf_reader.pages)
+def extrair_dados_pdf(caminho_arquivo):
+    """Extrai os dados do arquivo PDF e retorna uma lista de dicionários"""
+    dados = []
+    cabecalho_encontrado = False
     
-    # Variáveis identificadas no documento
-    quantitative_vars = [
-        "Potência instalada (kWp, MW)",
-        "Radiação solar (kWh/m²/dia)",
-        "Eficiência de conversão solar (%)",
-        "Área útil dos módulos (m²)",
-        "Produção anual estimada (kWh/ano)",
-        "Tarifas de energia (R$/kWh)",
-        "Investimento (R$)",
-        "Tempo de retorno (anos)",
-        "Taxa interna de retorno (%)",
-        "Taxa de juros (%)",
-        "Prazos de financiamento (anos)"
-    ]
+    with pdfplumber.open(caminho_arquivo) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text()
+            lines = text.split('\n')
+            
+            for line in lines:
+                if '=====' in line or not line.strip():
+                    continue
+                
+                if 'BROADBAND AVAILABILITY PER FCC' in line:
+                    cabecalho_encontrado = True
+                    continue
+                
+                parts = line.split(',')
+                if len(parts) >= 5:
+                    try:
+                        estado = parts[0].strip()
+                        county_id = parts[1].strip()
+                        county_name = parts[2].strip()
+                        
+                        broadband_availability = parts[3].strip() if len(parts) > 3 else None
+                        broadband_usage = parts[4].strip() if len(parts) > 4 else None
+
+                        availability = float(broadband_availability) if broadband_availability not in ['', '-'] else None
+                        usage = float(broadband_usage) if broadband_usage not in ['', '-'] else None
+
+                        dados.append({
+                            'estado': estado,
+                            'county_id': county_id,
+                            'county_name': county_name,
+                            'broadband_availability': availability,
+                            'broadband_usage': usage,
+                            'ano': os.path.basename(caminho_arquivo)[11:15]
+                        })
+                    except ValueError as e:
+                        continue
     
-    qualitative_vars = [
-        "Tipo de tecnologia",
-        "Localização geográfica",
-        "Setor industrial",
-        "Tipo de financiamento",
-        "Classificação da planta"
-    ]
+    return dados
+
+def gerar_relatorio_academico(dados, nome_arquivo):
+    """Gera um relatório no formato acadêmico"""
+    if not dados:
+        print(f"Nenhum dado para relatório do arquivo {nome_arquivo}.")
+        return
+
+    df = pd.DataFrame(dados)
+    total_registros = len(df)
     
-    # Criar DataFrame para a tabela resumo
-    var_table = pd.DataFrame({
-        'Variável': quantitative_vars + qualitative_vars,
-        'Tipo': ['Quantitativa']*len(quantitative_vars) + ['Qualitativa']*len(qualitative_vars),
+    print("\nANÁLISE DO DOCUMENTO ACADÊMICO")
+    print("="*50 + "\n")
+    print(f"Número total de registros: {total_registros}\n")
+    
+    print("Variáveis Quantitativas Identificadas:")
+    print("1. Disponibilidade de banda larga (FCC)")
+    print("2. Uso de banda larga\n")
+    
+    print("Variáveis Qualitativas Identificadas:")
+    print("1. Estado (sigla)")
+    print("2. ID do condado")
+    print("3. Nome do condado")
+    print("4. Ano da pesquisa\n")
+    
+    # Criando a tabela resumo
+    resumo = pd.DataFrame({
+        'Variável': [
+            'Disponibilidade de banda larga (FCC)',
+            'Uso de banda larga',
+            'Estado (sigla)',
+            'ID do condado',
+            'Nome do condado',
+            'Ano da pesquisa'
+        ],
+        'Tipo': [
+            'Quantitativa',
+            'Quantitativa',
+            'Qualitativa',
+            'Qualitativa',
+            'Qualitativa',
+            'Qualitativa'
+        ],
         'Exemplo': [
-            '117,6 kWp', '5,32 kWh/m²/dia', '15%', '1,63 m²', 
-            '227.890 kWh/ano', 'R$0,22', 'R$500.000', '5 anos',
-            '12%', '6,7%', '10 anos',
-            'Silício Policristalino', 'Santa Rita-PB', 
-            'Indústria calçadista', 'BNB-FNE Verde', 'Mini geração'
+            f"{df['broadband_availability'].mean():.2f} (média)",
+            f"{df['broadband_usage'].mean():.2f} (média)",
+            df['estado'].iloc[0],
+            df['county_id'].iloc[0],
+            df['county_name'].iloc[0],
+            df['ano'].iloc[0]
         ]
     })
     
-    return total_pages, quantitative_vars, qualitative_vars, var_table
-
-def main():
-    # Caminho correto para o arquivo PDF
-    pdf_path = os.path.join(
-        "B:\\MEUS ARQUIVOS\\BEACAP 02-LEVONO GAMER\\DOCUMENTOS DE ARQUIVO\\TECNOLOGO EM TELEMATICA\\PERIODO 04\\ESTATISTICA APLICADA\\PROJETO DE ESTATISTICA",
-        "arquivototal.pdf"
-    )
+    print("\nTabela Resumo de Variáveis:")
+    print(resumo.to_string(index=False))
     
-    # Verificar se o arquivo existe
-    if not os.path.exists(pdf_path):
-        print(f"Erro: Arquivo não encontrado em {pdf_path}")
-        print("Verifique se:")
-        print("1. O arquivo 'arquivototal.pdf' existe no diretório")
-        print("2. O nome do arquivo está correto (incluindo maiúsculas/minúsculas)")
-        print("3. Você tem permissão para acessar o arquivo")
-        return
+    print("\n\nAlguns dados quantitativos encontrados:")
+    print(f"- Disponibilidade média de banda larga: {df['broadband_availability'].mean():.2f}")
+    print(f"- Uso médio de banda larga: {df['broadband_usage'].mean():.2f}")
+    print(f"- Máxima disponibilidade registrada: {df['broadband_availability'].max():.2f}")
+    print(f"- Mínimo uso registrado: {df['broadband_usage'].min():.2f}\n")
+    
+    print("="*50)
 
+# Caminhos para os arquivos PDF
+caminhos_pdf = [
+    r'D:\DADOS DO SSD02\CURSO DE TELEMATICA\ESTATISTICA APLICADA\CONJUNTO DE DADOS DO TRABALHO\broadband_data_2019November.pdf',
+    r'D:\DADOS DO SSD02\CURSO DE TELEMATICA\ESTATISTICA APLICADA\CONJUNTO DE DADOS DO TRABALHO\broadband_data_2020October.pdf'
+]
+
+for caminho_pdf in caminhos_pdf:
     try:
-        # Ler o PDF com tratamento de erros
-        with open(pdf_path, 'rb') as pdf_file:
-            pdf_reader = PyPDF2.PdfReader(pdf_file)
+        print(f"\nProcessando arquivo: {os.path.basename(caminho_pdf)}")
+        dados = extrair_dados_pdf(caminho_pdf)
+        if dados:
+            nome_arquivo = os.path.basename(caminho_pdf)
+            gerar_relatorio_academico(dados, nome_arquivo)
             
-            # Extrair texto com tratamento para páginas vazias
-            text = ""
-            for page in pdf_reader.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text
-            
-            # Analisar o conteúdo
-            total_pages, quant_vars, qual_vars, var_table = analyze_pdf_content(text, pdf_reader)
-
-            # Exibir resultados
-            print("\n" + "="*50)
-            print("ANÁLISE DO DOCUMENTO ACADÊMICO")
-            print("="*50)
-
-            print(f"\nNúmero total de páginas (registros): {total_pages}")
-
-            print("\nVariáveis Quantitativas Identificadas:")
-            for i, var in enumerate(quant_vars, 1):
-                print(f"{i}. {var}")
-
-            print("\nVariáveis Qualitativas Identificadas:")
-            for i, var in enumerate(qual_vars, 1):
-                print(f"{i}. {var}")
-
-            print("\nTabela Resumo de Variáveis:")
-            print(var_table.to_string(index=False))
-
-            # Extrair exemplos de dados quantitativos
-            print("\n\nAlguns dados quantitativos encontrados:")
-            power_values = re.findall(r'(\d+[,.]\d+\s*(?:kWp|MW))', text)
-            radiation_values = re.findall(r'(\d+[,.]\d+\s*kWh/m²)', text)
-
-            if power_values:
-                print(f"Exemplos de potência encontrados: {', '.join(set(power_values[:5]))}...")
-            if radiation_values:
-                print(f"Exemplos de radiação solar: {', '.join(set(radiation_values[:5]))}...")
-
-            print("\n" + "="*50)
-            print("OBSERVAÇÃO: Este é um documento acadêmico, não um dataset tabular.")
-            print("As variáveis foram identificadas a partir do conteúdo textual.")
-            print("="*50)
-
-    except PyPDF2.errors.PdfReadError as e:
-        print(f"Erro ao ler o arquivo PDF: {str(e)}")
-        print("O arquivo pode estar corrompido ou não é um PDF válido.")
+            # Salvar em CSV para análise posterior
+            df = pd.DataFrame(dados)
+            nome_csv = f"broadband_data_{nome_arquivo[11:15]}_processed.csv"
+            df.to_csv(nome_csv, index=False)
+            print(f"\nDados salvos em '{nome_csv}'")
+        else:
+            print(f"Não foi possível extrair dados do arquivo {nome_arquivo}")
+    except FileNotFoundError:
+        print(f"Arquivo PDF não encontrado no caminho: {caminho_pdf}")
     except Exception as e:
-        print(f"Erro inesperado: {str(e)}")
-
-if __name__ == "__main__":
-    main()
+        print(f"Erro ao processar o arquivo PDF {caminho_pdf}: {e}")
