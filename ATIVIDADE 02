@@ -1,53 +1,74 @@
-==================================================
+Processando arquivo: broadband_data_2019November.pdf
+
 ANÁLISE DO DOCUMENTO ACADÊMICO
 ==================================================
 
-Número total de páginas (registros): 147
+Número total de registros: 3143
 
 Variáveis Quantitativas Identificadas:
-1. Potência instalada (kWp, MW)
-2. Radiação solar (kWh/m²/dia)
-3. Eficiência de conversão solar (%)
-4. Área útil dos módulos (m²)
-5. Produção anual estimada (kWh/ano)
-6. Tarifas de energia (R$/kWh)
-7. Investimento (R$)
-8. Tempo de retorno (anos)
-9. Taxa interna de retorno (%)
-10. Taxa de juros (%)
-11. Prazos de financiamento (anos)
+1. Disponibilidade de banda larga (FCC)
+2. Uso de banda larga
 
 Variáveis Qualitativas Identificadas:
-1. Tipo de tecnologia
-2. Localização geográfica
-3. Setor industrial
-4. Tipo de financiamento
-5. Classificação da planta
+1. Estado (sigla)
+2. ID do condado
+3. Nome do condado
+4. Ano da pesquisa
+
 
 Tabela Resumo de Variáveis:
-                         Variável         Tipo                Exemplo
-     Potência instalada (kWp, MW) Quantitativa              117,6 kWp
-      Radiação solar (kWh/m²/dia) Quantitativa        5,32 kWh/m²/dia
-Eficiência de conversão solar (%) Quantitativa                    15%
-       Área útil dos módulos (m²) Quantitativa                1,63 m²
-Produção anual estimada (kWh/ano) Quantitativa        227.890 kWh/ano
-      Tarifas de energia (R$/kWh) Quantitativa                 R$0,22
-                Investimento (R$) Quantitativa              R$500.000
-          Tempo de retorno (anos) Quantitativa                 5 anos
-      Taxa interna de retorno (%) Quantitativa                    12%
-                Taxa de juros (%) Quantitativa                   6,7%
-   Prazos de financiamento (anos) Quantitativa                10 anos
-               Tipo de tecnologia  Qualitativa Silício Policristalino
-           Localização geográfica  Qualitativa          Santa Rita-PB
-                 Setor industrial  Qualitativa   Indústria calçadista
-            Tipo de financiamento  Qualitativa          BNB-FNE Verde
-          Classificação da planta  Qualitativa           Mini geração
+                            Variável         Tipo        Exemplo
+Disponibilidade de banda larga (FCC) Quantitativa   0.77 (média)
+                  Uso de banda larga Quantitativa   0.28 (média)
+                      Estado (sigla)  Qualitativa             AL
+                       ID do condado  Qualitativa           1001
+                     Nome do condado  Qualitativa Autauga County
+                     Ano da pesquisa  Qualitativa           ata_
 
 
 Alguns dados quantitativos encontrados:
-Exemplos de potência encontrados: 117,6  kWp, 352,8kWp, 352,8 kWp, 117,6 kWp...
+- Disponibilidade média de banda larga: 0.77
+- Uso médio de banda larga: 0.28
+- Máxima disponibilidade registrada: 1.00
+- Mínimo uso registrado: 0.01
 
 ==================================================
-OBSERVAÇÃO: Este é um documento acadêmico, não um dataset tabular.
-As variáveis foram identificadas a partir do conteúdo textual.
+
+Dados salvos em 'broadband_data_ata__processed.csv'
+
+Processando arquivo: broadband_data_2020October.pdf
+
+ANÁLISE DO DOCUMENTO ACADÊMICO
 ==================================================
+
+Número total de registros: 3142
+
+Variáveis Quantitativas Identificadas:
+1. Disponibilidade de banda larga (FCC)
+2. Uso de banda larga
+
+Variáveis Qualitativas Identificadas:
+1. Estado (sigla)
+2. ID do condado
+3. Nome do condado
+4. Ano da pesquisa
+
+
+Tabela Resumo de Variáveis:
+                            Variável         Tipo        Exemplo
+Disponibilidade de banda larga (FCC) Quantitativa   0.84 (média)
+                  Uso de banda larga Quantitativa   0.39 (média)
+                      Estado (sigla)  Qualitativa             AL
+                       ID do condado  Qualitativa           1001
+                     Nome do condado  Qualitativa Autauga County
+                     Ano da pesquisa  Qualitativa           ata_
+
+
+Alguns dados quantitativos encontrados:
+- Disponibilidade média de banda larga: 0.84
+- Uso médio de banda larga: 0.39
+- Máxima disponibilidade registrada: 1.00
+- Mínimo uso registrado: 0.00
+
+==================================================
+
