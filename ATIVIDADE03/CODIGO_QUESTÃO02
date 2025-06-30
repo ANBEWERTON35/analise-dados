@@ -1,1 +1,140 @@
+import pandas as pd
+import numpy as np
+import PyPDF2
+import re
+from pathlib import Path
+import matplotlib.pyplot as plt
 
+def extract_data_from_pdf(pdf_paths):
+    """Extrai dados de múltiplos PDFs e retorna um DataFrame consolidado"""
+    all_data = []
+    
+    for pdf_path in pdf_paths:
+        data = []
+        try:
+            with open(pdf_path, 'rb') as file:
+                reader = PyPDF2.PdfReader(file)
+                
+                for page in reader.pages:
+                    text = page.extract_text()
+                    lines = text.split('\n')
+                    
+                    for line in lines:
+                        if re.match(r'^[A-Z]{2},\d{4},', line):
+                            parts = [p.strip() for p in line.split(',')]
+                            
+                            if len(parts) >= 5:
+                                row = {
+                                    'Estado': parts[0],
+                                    'ID_Condado': parts[1],
+                                    'Nome_Condado': parts[2],
+                                    'Disponibilidade_FCC': parts[3],
+                                    'Uso': parts[4],
+                                    'Ano': Path(pdf_path).stem.split('_')[-1]
+                                }
+                                data.append(row)
+            
+            if data:
+                df = pd.DataFrame(data)
+                all_data.append(df)
+                print(f"Extraídos {len(df)} registros de {pdf_path}")
+                
+        except Exception as e:
+            print(f"Erro ao processar {pdf_path}: {str(e)}")
+    
+    return pd.concat(all_data, ignore_index=True) if all_data else pd.DataFrame()
+
+def clean_data(df):
+    """Limpa e prepara os dados"""
+    if df.empty:
+        return df
+    
+    df['Disponibilidade_FCC'] = pd.to_numeric(df['Disponibilidade_FCC'], errors='coerce')
+    df['Uso'] = pd.to_numeric(df['Uso'], errors='coerce')
+    
+    return df.dropna(subset=['Disponibilidade_FCC', 'Uso'])
+
+def analyze_adoption_by_state(df):
+    """Analisa a adoção de banda larga por estado"""
+    if df.empty:
+        return pd.DataFrame()
+    
+    # Agrupar por estado e calcular estatísticas
+    adoption_stats = df.groupby('Estado')['Uso'].agg(
+        Media_Uso='mean',
+        Desvio_Padrao_Uso='std',
+        Numero_Condados='count'
+    ).sort_values('Media_Uso', ascending=False)
+    
+    return adoption_stats
+
+def plot_adoption_by_state(stats_df):
+    """Cria um gráfico de barras da adoção por estado"""
+    if stats_df.empty:
+        print("Nenhum dado disponível para plotar.")
+        return
+    
+    plt.figure(figsize=(15, 8))
+    
+    # Ordenar por média de uso
+    stats_df = stats_df.sort_values('Media_Uso', ascending=False)
+    
+    # Gráfico de barras
+    bars = plt.bar(stats_df.index, stats_df['Media_Uso'], 
+                   yerr=stats_df['Desvio_Padrao_Uso'],
+                   capsize=5, alpha=0.7)
+    
+    plt.title('Distribuição da Adoção de Banda Larga por Estado', fontsize=16)
+    plt.xlabel('Estado', fontsize=12)
+    plt.ylabel('Uso Médio de Banda Larga (%)', fontsize=12)
+    plt.xticks(rotation=90)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    # Adicionar valores nas barras
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                 f'{height:.2f}%',
+                 ha='center', va='bottom', fontsize=8)
+    
+    plt.tight_layout()
+    plt.savefig('adocao_banda_larga_por_estado.png', dpi=300)
+    plt.show()
+
+def main():
+    # Lista de caminhos para os arquivos PDF
+    pdf_paths = [
+        r'D:\DADOS DO SSD02\CURSO DE TELEMATICA\ESTATISTICA APLICADA\CONJUNTO DE DADOS DO TRABALHO\broadband_data_2019November.pdf',
+        r'D:\DADOS DO SSD02\CURSO DE TELEMATICA\ESTATISTICA APLICADA\CONJUNTO DE DADOS DO TRABALHO\broadband_data_2020October.pdf'
+    ]
+    
+    try:
+        # Extrair e limpar dados
+        print("Processando dados...")
+        df = clean_data(extract_data_from_pdf(pdf_paths))
+        
+        if df.empty:
+            print("Nenhum dado válido encontrado.")
+            return
+        
+        # Análise por estado
+        print("\n=== ANÁLISE DE ADOÇÃO POR ESTADO ===")
+        adoption_stats = analyze_adoption_by_state(df)
+        
+        # Mostrar tabela de resultados
+        print("\nTabela: Estatísticas de Uso de Banda Larga por Estado")
+        print(adoption_stats.to_string(float_format="%.2f"))
+        
+        # Salvar tabela
+        adoption_stats.to_csv('estatisticas_uso_por_estado.csv')
+        print("\nResultados salvos em 'estatisticas_uso_por_estado.csv'")
+        
+        # Gerar e salvar gráfico
+        plot_adoption_by_state(adoption_stats)
+        print("Gráfico salvo como 'adocao_banda_larga_por_estado.png'")
+        
+    except Exception as e:
+        print(f"Ocorreu um erro: {str(e)}")
+
+if __name__ == "__main__":
+    main()
