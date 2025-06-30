@@ -1,1 +1,149 @@
+import pandas as pd
+import numpy as np
+import PyPDF2
+import re
+from pathlib import Path
 
+def extract_data_from_pdf(pdf_paths):
+    """Extrai dados de múltiplos PDFs e retorna um DataFrame consolidado"""
+    all_data = []
+    
+    for pdf_path in pdf_paths:
+        data = []
+        try:
+            with open(pdf_path, 'rb') as file:
+                reader = PyPDF2.PdfReader(file)
+                
+                for page in reader.pages:
+                    text = page.extract_text()
+                    lines = text.split('\n')
+                    
+                    for line in lines:
+                        # Padrão para linhas de dados (ajuste conforme necessário)
+                        if re.match(r'^[A-Z]{2},\d{4},', line):
+                            parts = [p.strip() for p in line.split(',')]
+                            
+                            # Garantir que temos 5 colunas (ajuste conforme seus dados)
+                            if len(parts) >= 5:
+                                row = {
+                                    'Estado': parts[0],
+                                    'ID_Condado': parts[1],
+                                    'Nome_Condado': parts[2],
+                                    'Disponibilidade_FCC': parts[3],
+                                    'Uso': parts[4],
+                                    'Ano': Path(pdf_path).stem.split('_')[-1]  # Extrai o ano do nome do arquivo
+                                }
+                                data.append(row)
+            
+            if data:
+                df = pd.DataFrame(data)
+                all_data.append(df)
+                print(f"Extraídos {len(df)} registros de {pdf_path}")
+            else:
+                print(f"Nenhum dado extraído de {pdf_path}")
+                
+        except Exception as e:
+            print(f"Erro ao processar {pdf_path}: {str(e)}")
+    
+    if all_data:
+        return pd.concat(all_data, ignore_index=True)
+    else:
+        return pd.DataFrame()
+
+def clean_data(df):
+    """Limpa e prepara os dados"""
+    if df.empty:
+        return df
+    
+    # Converter para numérico, tratando valores inválidos
+    df['Disponibilidade_FCC'] = pd.to_numeric(df['Disponibilidade_FCC'], errors='coerce')
+    df['Uso'] = pd.to_numeric(df['Uso'], errors='coerce')
+    
+    # Remover linhas com valores nulos nas colunas de interesse
+    df = df.dropna(subset=['Disponibilidade_FCC', 'Uso'])
+    
+    return df
+
+def calculate_statistics(df):
+    """Calcula estatísticas descritivas"""
+    stats = {}
+    
+    if df.empty:
+        return stats
+    
+    for col in ['Disponibilidade_FCC', 'Uso']:
+        stats[col] = {
+            'Média': df[col].mean(),
+            'Mediana': df[col].median(),
+            'Desvio Padrão': df[col].std(),
+            'Mínimo': df[col].min(),
+            'Máximo': df[col].max(),
+            'Q1': df[col].quantile(0.25),
+            'Q3': df[col].quantile(0.75)
+        }
+    
+    return stats
+
+def analyze_by_territory(df):
+    """Analisa as métricas por estado/território"""
+    if df.empty:
+        return pd.DataFrame()
+    
+    territory_stats = df.groupby(['Estado', 'Ano']).agg({
+        'Disponibilidade_FCC': ['mean', 'median', 'std', 'min', 'max'],
+        'Uso': ['mean', 'median', 'std', 'min', 'max']
+    })
+    
+    return territory_stats
+
+def main():
+    # Lista de caminhos para os arquivos PDF
+    pdf_paths = [
+        r'D:\DADOS DO SSD02\CURSO DE TELEMATICA\ESTATISTICA APLICADA\CONJUNTO DE DADOS DO TRABALHO\broadband_data_2019November.pdf',
+        r'D:\DADOS DO SSD02\CURSO DE TELEMATICA\ESTATISTICA APLICADA\CONJUNTO DE DADOS DO TRABALHO\broadband_data_2020October.pdf'
+    ]
+    
+    try:
+        # Extrair dados dos PDFs
+        print("Extraindo dados dos PDFs...")
+        df = extract_data_from_pdf(pdf_paths)
+        
+        if df.empty:
+            print("Nenhum dado foi extraído dos arquivos PDF.")
+            return
+        
+        # Limpar dados
+        print("Limpando e preparando os dados...")
+        df = clean_data(df)
+        
+        if df.empty:
+            print("Nenhum dado válido após a limpeza.")
+            return
+        
+        # Calcular estatísticas gerais
+        print("\n=== ESTATÍSTICAS GERAIS ===")
+        stats = calculate_statistics(df)
+        
+        for col, values in stats.items():
+            print(f"\n--- {col.replace('_', ' ')} ---")
+            for stat, value in values.items():
+                print(f"{stat}: {value:.4f}")
+        
+        # Analisar por território e ano
+        print("\n=== ANÁLISE POR ESTADO/TERRITÓRIO E ANO ===")
+        territory_stats = analyze_by_territory(df)
+        print(territory_stats)
+        
+        # Salvar resultados em CSV para análise posterior
+        territory_stats.to_csv('estatisticas_por_estado_ano.csv')
+        print("\nResultados por estado e ano salvos em 'estatisticas_por_estado_ano.csv'")
+        
+        # Salvar dados consolidados
+        df.to_csv('dados_consolidados.csv', index=False)
+        print("Dados consolidados salvos em 'dados_consolidados.csv'")
+        
+    except Exception as e:
+        print(f"Ocorreu um erro: {str(e)}")
+
+if __name__ == "__main__":
+    main()
