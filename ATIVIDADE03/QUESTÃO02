@@ -2,8 +2,8 @@
 === ANÁLISE DE ADOÇÃO POR ESTADO ===
 
 Tabela: Estatísticas de Uso de Banda Larga por Estado
-        Media_Uso  Desvio_Padrao_Uso  Numero_Condados
-Estado
+         
+Estado       Media_Uso       Desvio_Padrao_Uso    Numero_Condados
 CT           0.60               0.08               16
 CA           0.48               0.22              116
 CO           0.40               0.24              128
